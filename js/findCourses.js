@@ -18,4 +18,4 @@ var data = $(".pagebodydiv").children('table.datadisplaytable[summary="This layo
    };
 }).get();
 
-console.log(data);
+chrome.extension.sendMessage(data);

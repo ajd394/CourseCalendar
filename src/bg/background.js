@@ -11,8 +11,14 @@ chrome.runtime.onInstalled.addListener(function() {
           })
         ],
         // And shows the extension's page action.
-        actions: [ new chrome.declarativeContent.ShowPageAction() ]
+        actions: [ new chrome.declarativeContent.ShowPageAction(), ]
       }
     ]);
   });
+});
+
+
+chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
+    console.log(data);
+    sendResponse();
 });
