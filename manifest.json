@@ -1,0 +1,45 @@
+{
+  "name": "CourseCalendar",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "This extension allows students to import their classes from Elician Banner into Google Calendar",
+  "homepage_url": "http://andrewdiprinzio.com",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArJ/QPcl0o7PaC1tPTR6Nn1OWXJKQcl5608HYayPe9vIULUF7E1NIrascfcetRnz//KmCnJBOZ9Y54JwJyBpUsUMcpWUaYvsqqYsQDsz6EzoffYOJgXPetyxsbqZf97wScR6Ux9Apxtdo3b6P6UEKT7StoUBqYKdiz+HfIFJ+zA2kmRxRZ8CvkYugLaht4UYOv9GQclFiDjfrhfqZBGeExAWEnmLDXUzlFoD73tb3mbpIsgXn5VOi3BjNuNj44xDBYSUYcLQHjKwbELl33B6gOAV+n2kM6oph6DLStUFXL8Mx6sTfprMVr0SPwms8T44E1ZRaSc0kgoT8Si/AZjA0jQIDAQAB",
+  "author":"Andrew DiPrinzio",
+  "default_locale": "en",
+  "background": {
+    "scripts": [
+      "src/bg/background.js",
+      "src/page_action/page_action.js"
+    ],
+    "persistent": false
+  },
+  "page_action": {
+    "default_icon": "icons/icon-19.png",
+    "default_title": "Add Schedule to Google Calendar",
+    "default_popup": "src/page_action/page_action.html"
+  },
+  "permissions": [
+    "https://lewisweb.cc.lehigh.edu/pls/prod/bwskfshd.P_CrseSchdDetl",
+    "declarativeContent",
+    "identity"
+  ],
+  "oauth2": {
+    "client_id": "422550160766-h1p2oh2nf33skctu2fop3u7gua007vt1.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar"
+    ]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://lewisweb.cc.lehigh.edu/pls/prod/bwskfshd.P_CrseSchdDetl"],
+      "js": ["js/jquery-2.1.4.js","js/findCourses.js"]
+    }
+  ]
+}
