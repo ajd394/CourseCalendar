@@ -19,7 +19,6 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 
   chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
-    console.log(token);
     apiToken = token;
   });
 });
@@ -53,8 +52,6 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
 
           start.setDate(start.getDate() + dateIncrement(meeting.days[0]));
           end.setDate(end.getDate() + dateIncrement(meeting.days[0]));
-          console.log(start.toISOString());
-
 
 
           var event = {
@@ -73,8 +70,6 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
               'RRULE:FREQ=WEEKLY;UNTIL=' + semesterEnd.toISOString().replace(/[\.:-]|000/g,"") + ';BYDAY=' + convertWeekDays(meeting.days)
             ]
           };
-
-          console.log(event);
 
           xhr1.open("POST", "https://www.googleapis.com/calendar/v3/calendars/" + calRes.id  + "/events", true);
           xhr1.setRequestHeader('Authorization', 'Bearer ' + apiToken); // token comes from chrome.identity
@@ -144,6 +139,5 @@ function dateIncrement(char){
         int = 4;
       break;
   }
-  console.log(char +' '+ int)
   return int;
 }
