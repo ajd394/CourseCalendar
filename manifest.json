@@ -15,7 +15,8 @@
   "background": {
     "scripts": [
       "src/bg/background.js",
-      "src/page_action/page_action.js"
+      "src/page_action/page_action.js",
+      "js/jquery-2.1.4.js"
     ],
     "persistent": false
   },
@@ -24,12 +25,14 @@
     "default_title": "Add Schedule to Google Calendar",
     "default_popup": "src/page_action/page_action.html"
   },
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "permissions": [
     "https://lewisweb.cc.lehigh.edu/pls/prod/bwskfshd.P_CrseSchdDetl",
     "https://accounts.google.com/*",
     "https://www.googleapis.com/*",
     "declarativeContent",
-    "identity"
+    "identity",
+    "storage"
   ],
   "oauth2": {
     "client_id": "422550160766-41ob675984ru4v09qipkd8rao3s82009.apps.googleusercontent.com",
