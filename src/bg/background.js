@@ -50,10 +50,15 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
           var start = new Date(Date.parse(meeting.startDate + " " + meeting.startTime));
           var end = new Date(Date.parse(meeting.startDate +  " " + meeting.endTime));
           var semesterEnd = new Date(Date.parse(meeting.endDate));
-          console.log(semesterEnd.toISOString());
+
+          start.setDate(start.getDate() + dateIncrement(meeting.days[0]));
+          end.setDate(end.getDate() + dateIncrement(meeting.days[0]));
+          console.log(start.toISOString());
+
+
 
           var event = {
-            'summary': course.number.concat(" ", course.name, " (", meeting.schedule_type + ")"),
+            'summary': course.number.concat(" ", course.name, (meeting.schedule_type !== "Lecture" ? " (" + meeting.schedule_type  + ")":"")),
             'location': meeting.location,
             'description': 'test',
             'start': {
@@ -116,9 +121,29 @@ function convertWeekDays(days){
           weekdaynums = weekdaynums + "FR,";
         break;
     }
-    console.log(days[y]);
-    console.log(weekdaynums);
   }
   return weekdaynums.substring(0, weekdaynums.length - 1);
+}
 
+function dateIncrement(char){
+  var int = 0;
+  switch (char) {
+    case 'M':
+      int = 0;
+      break;
+    case 'T':
+        int = 1;
+      break;
+    case 'W':
+        int = 2;
+      break;
+    case 'R':
+        int = 3;
+      break;
+    case 'F':
+        int = 4;
+      break;
+  }
+  console.log(char +' '+ int)
+  return int;
 }
