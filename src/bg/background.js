@@ -6,7 +6,6 @@ chrome.runtime.onInstalled.addListener(function() {
     // With a new rule ...
     chrome.declarativeContent.onPageChanged.addRules([
       {
-
         conditions: [
           new chrome.declarativeContent.PageStateMatcher({
             pageUrl: { urlContains: 'CrseSchdDetl' },
@@ -30,7 +29,7 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
       var calRes = JSON.parse(xhr.responseText);
-      chrome.storage.local.get("calId", function(value){
+      chrome.storage.sync.get("calId", function(value){
         if(value){
           var xhr2 = new XMLHttpRequest();
           xhr2.open("DELETE", "https://www.googleapis.com/calendar/v3/calendars/" +  value.calId, true);
@@ -39,7 +38,7 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
           xhr2.send();
         }
       });
-      chrome.storage.local.set({'calId': calRes.id});
+      chrome.storage.sync.set({'calId': calRes.id});
       for (var i = 0; i < data.length; i++) {//classes
         var course = data[i];
         for (var j = 0; j < course.meetings.length; j++) {//meetins of classes
@@ -75,9 +74,6 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
           xhr1.setRequestHeader('Authorization', 'Bearer ' + apiToken); // token comes from chrome.identity
           xhr1.setRequestHeader('Content-Type', 'application/json');
           xhr1.send(JSON.stringify(event));
-          xhr1.onreadystatechange = function() {
-              console.log(JSON.parse(xhr1.responseText));
-            }
         }
       }
     }

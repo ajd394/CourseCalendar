@@ -16,7 +16,10 @@ var data = $(".pagebodydiv").children('table.datadisplaytable[summary="This layo
                 schedule_type: $td.eq(5).text(),
                 instructors: $td.eq(6).text()
                     }
-     }).get()
+     }).get(),
+     semster: $(this).find("th:contains(Associated Term:)").next().text(),
+     crn: $(this).find("th:contains(CRN:)").next().text(),
+     cred: $(this).find("th:contains(Credits:)").next().text()
    };
 }).get();
 
