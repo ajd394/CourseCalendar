@@ -1,8 +1,8 @@
 {
   "name": "CourseCalendar",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "manifest_version": 2,
-  "description": "WARNING THIS EXTINSION IS PRE-ALPHA. This extension allows students to import classes from Banner® by Ellucian into Google Calendar",
+  "description": "This extension allows students to import classes from Banner® by Ellucian into Google Calendar™ with a single click",
   "homepage_url": "http://andrewdiprinzio.com",
   "icons": {
     "16": "icons/icon-16.png",
@@ -21,7 +21,7 @@
   },
   "page_action": {
     "default_icon": "icons/icon-19.png",
-    "default_title": "Add Schedule to Google Calendar",
+    "default_title": "Add Schedule to Google Calendar™",
     "default_popup": "src/page_action/page_action.html"
   },
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
