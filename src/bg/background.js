@@ -1,5 +1,3 @@
-var apiToken;
-
 chrome.runtime.onInstalled.addListener(function() {
   // Replace all rules ...
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
@@ -38,9 +36,18 @@ chrome.runtime.onMessage.addListener(function(data,sender,sendResponse){
         });
         chrome.storage.sync.set({'calId': calRes.id});
         for (var i = 0; i < data.length; i++) {//classes
-            processCourse(data[i], calRes.id,token);
+          processCourse(data[i], calRes.id,token);
         }
+
+        var opt = {
+          type: "basic",
+          title: "CourseCalendar",
+          message: "CourseCalendar successfully added your scheule to your Google Calendar",
+          iconUrl: "icons/icon-48.png"
+        }
+        chrome.notifications.create(opt);
       }
+
     };
 
     xhr.open("POST", "https://www.googleapis.com/calendar/v3/calendars/", true);
@@ -63,20 +70,20 @@ function convertWeekDays(days){
   for (var y = 0; y < days.length; y++) {
     switch (days[y]) {
       case 'M':
-        weekdaynums = weekdaynums + "MO,";
-        break;
+      weekdaynums = weekdaynums + "MO,";
+      break;
       case 'T':
-          weekdaynums = weekdaynums + "TU,";
-        break;
+      weekdaynums = weekdaynums + "TU,";
+      break;
       case 'W':
-          weekdaynums = weekdaynums + "WE,";
-        break;
+      weekdaynums = weekdaynums + "WE,";
+      break;
       case 'R':
-          weekdaynums = weekdaynums + "TH,";
-        break;
+      weekdaynums = weekdaynums + "TH,";
+      break;
       case 'F':
-          weekdaynums = weekdaynums + "FR,";
-        break;
+      weekdaynums = weekdaynums + "FR,";
+      break;
     }
   }
   return weekdaynums.substring(0, weekdaynums.length - 1);
@@ -86,20 +93,20 @@ function dateIncrement(char){
   var int = 0;
   switch (char) {
     case 'M':
-      int = 0;
-      break;
+    int = 0;
+    break;
     case 'T':
-        int = 1;
-      break;
+    int = 1;
+    break;
     case 'W':
-        int = 2;
-      break;
+    int = 2;
+    break;
     case 'R':
-        int = 3;
-      break;
+    int = 3;
+    break;
     case 'F':
-        int = 4;
-      break;
+    int = 4;
+    break;
   }
   return int;
 }
@@ -116,11 +123,12 @@ function processCourse(course, calId, apiToken) {
     start.setDate(start.getDate() + dateIncrement(meeting.days[0]));
     end.setDate(end.getDate() + dateIncrement(meeting.days[0]));
 
+    var desc = ''.concat("Professor: ", course.prof, " - " , course.prof_email, '\nSection: ', course.section, '\nCRN: ', course.crn, '\nCredits: ', course.cred);
 
     var event = {
       'summary': course.number.concat(" ", course.name, (meeting.schedule_type !== "Lecture" ? " (" + meeting.schedule_type  + ")":"")),
       'location': meeting.location,
-      'description': 'test',
+      'description': desc,
       'start': {
         'dateTime': start.toISOString(),
         'timeZone': 'America/New_York'
@@ -135,16 +143,17 @@ function processCourse(course, calId, apiToken) {
     };
 
     submitEvent(event,calId,apiToken);
-}
+  }
 }
 
 
 
 function submitEvent(event, calId, apiToken) {
   var xhr1 = new XMLHttpRequest();
+  /*
   xhr1.onreadystatechange = function() {  //DEBUG
-    console.log(JSON.parse(xhr.responseText));
-  };
+  console.log(JSON.parse(xhr1.responseText));
+  };*/
   xhr1.open("POST", "https://www.googleapis.com/calendar/v3/calendars/" + calId  + "/events", true);
   xhr1.setRequestHeader('Authorization', 'Bearer ' + apiToken); // token comes from chrome.identity
   xhr1.setRequestHeader('Content-Type', 'application/json');

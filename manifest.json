@@ -1,6 +1,6 @@
 {
   "name": "CourseCalendar",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "manifest_version": 2,
   "description": "WARNING THIS EXTINSION IS PRE-ALPHA. This extension allows students to import classes from Banner® by Ellucian into Google Calendar",
   "homepage_url": "http://andrewdiprinzio.com",
@@ -26,12 +26,13 @@
   },
   "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
   "permissions": [
-    "https://lewisweb.cc.lehigh.edu/pls/prod/bwskfshd.P_CrseSchdDetl",
+    "https://*/*bwskfshd.P_CrseSchdDetl",
     "https://accounts.google.com/*",
     "https://www.googleapis.com/*",
     "declarativeContent",
     "identity",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "oauth2": {
     "client_id": "422550160766-41ob675984ru4v09qipkd8rao3s82009.apps.googleusercontent.com",
