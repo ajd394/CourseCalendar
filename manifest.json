@@ -2,7 +2,7 @@
   "name": "CourseCalendar",
   "version": "0.0.2",
   "manifest_version": 2,
-  "description": "WARNING THIS EXTINSION IS IN PRE-ALPHA. IT MAY EAT YOUR LUNCH FOR BREAKFAST!!! This extension allows college students to import their classes from Banner® by Ellucian into Google Calendar",
+  "description": "WARNING THIS EXTINSION IS PRE-ALPHA. This extension allows students to import classes from Banner® by Ellucian into Google Calendar",
   "homepage_url": "http://andrewdiprinzio.com",
   "icons": {
     "16": "icons/icon-16.png",
@@ -11,7 +11,6 @@
   },
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArJ/QPcl0o7PaC1tPTR6Nn1OWXJKQcl5608HYayPe9vIULUF7E1NIrascfcetRnz//KmCnJBOZ9Y54JwJyBpUsUMcpWUaYvsqqYsQDsz6EzoffYOJgXPetyxsbqZf97wScR6Ux9Apxtdo3b6P6UEKT7StoUBqYKdiz+HfIFJ+zA2kmRxRZ8CvkYugLaht4UYOv9GQclFiDjfrhfqZBGeExAWEnmLDXUzlFoD73tb3mbpIsgXn5VOi3BjNuNj44xDBYSUYcLQHjKwbELl33B6gOAV+n2kM6oph6DLStUFXL8Mx6sTfprMVr0SPwms8T44E1ZRaSc0kgoT8Si/AZjA0jQIDAQAB",
   "author":"Andrew DiPrinzio",
-  "default_locale": "en",
   "background": {
     "scripts": [
       "src/bg/background.js",
@@ -43,8 +42,11 @@
 
   "content_scripts": [
     {
-      "matches": ["https://*/*prod/bwskfshd.P_CrseSchdDetl"],
+      "matches": ["https://*/*bwskfshd.P_CrseSchdDetl"],
       "js": ["js/jquery-2.1.4.js","js/findCourses.js"]
     }
-  ]
+  ],
+   "web_accessible_resources":[
+     "icons/calendar_plus_en.gif"
+   ]
 }
