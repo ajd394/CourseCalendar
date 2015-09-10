@@ -13,23 +13,18 @@
   "author":"Andrew DiPrinzio",
   "background": {
     "scripts": [
-      "src/bg/background.js",
-      "src/page_action/page_action.js",
+      "src/eventPages/onInstallation.js",
+      "src/eventPages/processCourses.js",
       "js/jquery-2.1.4.js"
     ],
     "persistent": false
   },
-  "page_action": {
-    "default_icon": "icons/icon-19.png",
-    "default_title": "Add Schedule to Google Calendar™",
-    "default_popup": "src/page_action/page_action.html"
-  },
-  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://apis.google.com https://www.google-analytics.com; object-src 'self'",
   "permissions": [
     "https://*/*bwskfshd.P_CrseSchdDetl",
     "https://accounts.google.com/*",
     "https://www.googleapis.com/*",
-    "declarativeContent",
+    "https://www.google-analytics.com/*",
     "identity",
     "storage",
     "notifications"
@@ -40,11 +35,10 @@
       "https://www.googleapis.com/auth/calendar"
     ]
   },
-
   "content_scripts": [
     {
       "matches": ["https://*/*bwskfshd.P_CrseSchdDetl"],
-      "js": ["js/jquery-2.1.4.js","js/findCourses.js"]
+      "js": ["js/jquery-2.1.4.js","js/scrapeCourses.js"]
     }
   ],
    "web_accessible_resources":[
