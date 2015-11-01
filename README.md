@@ -14,3 +14,5 @@ User Guide:
 
 Note: If you click the "Add to Google Calendar" button a second time, the original calendar created by this extension will be removed and a new one reimported.
 This will allow you to update your calendar if your schedule changes or to import a new semester. 
+
+https://chrome.google.com/webstore/detail/coursecalendar/nnmpgfgohlnaanmlmdhkplbkcldmohjh
