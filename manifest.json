@@ -4,6 +4,10 @@
   "manifest_version": 2,
   "description": "This extension allows students to import classes from Banner® by Ellucian into Google Calendar™ with a single click",
   "homepage_url": "http://andrewdiprinzio.com",
+  "options_ui": {
+    "page": "html/options.html",
+    "chrome_style": true
+  },
   "icons": {
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",

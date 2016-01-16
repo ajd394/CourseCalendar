@@ -24,7 +24,7 @@ chrome.runtime.onMessage.addListener(function(data,sender){
             xhr2.send();
           }
         });
-        chrome.storage.sync.set({'calId': calRes.id});
+        chrome.storage.sync.set({'year':2015,'semster':'Fall','calId': calRes.id});
         for (var i = 0; i < data.length; i++) {//classes
           processCourse(data[i], calRes.id,token);
         }
