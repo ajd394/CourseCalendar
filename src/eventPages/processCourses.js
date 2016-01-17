@@ -7,7 +7,7 @@ ga('create', 'UA-26151492-2', 'auto');
 ga('set', 'checkProtocolTask', null);
 
 
-chrome.runtime.onMessage.addListener(function(data,sender){
+chrome.runtime.onMessage.addListener(function(message,sender){
 
   chrome.identity.getAuthToken({ 'interactive': true }, function(token) {
 
@@ -15,26 +15,27 @@ chrome.runtime.onMessage.addListener(function(data,sender){
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var calRes = JSON.parse(xhr.responseText);
-        chrome.storage.sync.get("calId", function(value){
-          if(value){
-            var xhr2 = new XMLHttpRequest();
-            xhr2.open("DELETE", "https://www.googleapis.com/calendar/v3/calendars/" +  value.calId, true);
-            xhr2.setRequestHeader('Authorization', 'Bearer ' + token); // token comes from chrome.identity
-            xhr2.setRequestHeader('Content-Type', 'application/json');
-            xhr2.send();
-          }
+        chrome.storage.sync.get("calendars", function(items){
+          $.each(items.calendars, function(index) {
+            if(this.semester==message.semester && this.year == message.year){
+              remove_calendar(items,index);
+              remove_calendar_gcal(this.calId);
+            }
+          });
+          items.calendars.push({"semester":message.semester,"year":message.year,"calId":calRes.id});
+          chrome.storage.sync.set({"calendars":items.calendars});
         });
-        chrome.storage.sync.set({'calId': calRes.id});
-        for (var i = 0; i < data.length; i++) {//classes
-          processCourse(data[i], calRes.id,token);
+
+        for (var i = 0; i < message.course_data.length; i++) {//classes
+          processCourse(message.coures_data[i], calRes.id,token);
         }
 
         var opt = {
           type: "basic",
           title: "CourseCalendar",
-          message: "CourseCalendar successfully added your scheule to your Google Calendar",
+          message: "CourseCalendar successfully added your schedule to your Google Calendar",
           iconUrl: "icons/icon-48.png"
-        }
+        };
         chrome.notifications.create(opt);
         ga('send', 'event', 'process', 'courses');
       }
@@ -45,13 +46,10 @@ chrome.runtime.onMessage.addListener(function(data,sender){
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({
       "kind": "calendar#calendar",
-      "summary": "Courses",
+      "summary": "Courses: " + message.semester + ", " + message.year,
       "description": "Courses imported by CourseCalendar"
     }));
   });
-
-
-
 });
 
 function convertWeekDays(days){
@@ -77,6 +75,24 @@ function convertWeekDays(days){
     }
   }
   return weekdaynums.substring(0, weekdaynums.length - 1);
+}
+
+function remove_calendar_sync(items,index) {
+  cals = items.calendars;
+
+  cals.splice(index,1);
+
+  chrome.storage.sync.set({
+    "calendars": cals
+  });
+}
+
+function remove_calendar_gcal(id){
+  var xhr2 = new XMLHttpRequest();
+  xhr2.open("DELETE", "https://www.googleapis.com/calendar/v3/calendars/" +  id, true);
+  xhr2.setRequestHeader('Authorization', 'Bearer ' + token); // token comes from chrome.identity
+  xhr2.setRequestHeader('Content-Type', 'application/json');
+  xhr2.send();
 }
 
 function dateIncrement(char){
