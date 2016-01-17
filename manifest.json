@@ -1,6 +1,6 @@
 {
   "name": "CourseCalendar",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "manifest_version": 2,
   "description": "This extension allows students to import classes from Banner® by Ellucian into Google Calendar™ with a single click",
   "homepage_url": "http://andrewdiprinzio.com",
