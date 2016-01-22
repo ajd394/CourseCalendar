@@ -31,6 +31,9 @@ function loadHtml(callback) {
 function loadJs() {
     //button event listners
     $('#addToCal').click(function(){
+      semInfo = $(".staticheaders").html().split("<br>")[1].split(" ");
+      $("#dialog input[name=semester]").val(semInfo[1]);
+      $("#dialog input[name=year]").val(semInfo[0]);
       document.getElementById("dialog").showModal();
     });
     $('#cancel').click(function(){
