@@ -1,0 +1,10 @@
+User Guide:
+1. Navigate to Student Services -> Registration -> Student Detail Schedule
+2. Click the "Add to Google Calendar" button on the top right
+•You may be asked to allow CourseCalendar to your Google Calendar
+•You will receive a notification when your schedule has been added to Google Calendar
+3. Navigate to Google Calendar
+• Your schedule will appear as a new calendar called "Courses" on the left
+
+Note: You can view a list of the calendars added by this extension by navigate to chrome://extensions/ and clicking Options for CourseCalendar.
+From this page you can also remove calendars by clicking their corresponding "Remove" button

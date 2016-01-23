@@ -1,9 +1,8 @@
 {
-  "name": "CourseCalendar",
-  "version": "0.1.0",
+  "name": "Lehigh CourseCalendar",
+  "version": "0.2.0",
   "manifest_version": 2,
-  "description": "This extension allows students to import classes from Banner® by Ellucian into Google Calendar™ with a single click",
-  "homepage_url": "http://andrewdiprinzio.com",
+  "description": "This extension allows Lehigh University students to import classes from Banner into Google Calendar with a single click!",
   "options_ui": {
     "page": "html/options.html",
     "chrome_style": true
@@ -25,7 +24,7 @@
   },
   "content_security_policy": "script-src 'self' https://apis.google.com https://www.google-analytics.com; object-src 'self'",
   "permissions": [
-    "https://*/*bwskfshd.P_CrseSchdDetl",
+    "https://lewisweb.cc.lehigh.edu/*bwskfshd.P_CrseSchdDetl",
     "https://accounts.google.com/*",
     "https://www.googleapis.com/*",
     "https://www.google-analytics.com/*",
@@ -41,7 +40,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://*/*bwskfshd.P_CrseSchdDetl"],
+      "matches": ["https://lewisweb.cc.lehigh.edu/*bwskfshd.P_CrseSchdDetl"],
       "js": ["js/jquery-2.2.0.min.js","js/scrapeCourses.js"],
       "css": ["css/dialog.css"]
     }

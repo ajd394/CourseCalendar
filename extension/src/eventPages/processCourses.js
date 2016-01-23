@@ -15,19 +15,23 @@ chrome.runtime.onMessage.addListener(function(message,sender){
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4 && xhr.status == 200) {
         var calRes = JSON.parse(xhr.responseText);
-        chrome.storage.sync.get("calendars", function(items){
-          $.each(items.calendars, function(index) {
-            if(this.semester==message.semester && this.year == message.year){
-              remove_calendar(items,index);
-              remove_calendar_gcal(this.calId);
-            }
-          });
-          items.calendars.push({"semester":message.semester,"year":message.year,"calId":calRes.id});
-          chrome.storage.sync.set({"calendars":items.calendars});
+        chrome.storage.sync.get("calendars", function(storage){
+          if(storage.calendars){
+            $.each(storage.calendars, function(index) {
+              if(this.semester==message.semester && this.year == message.year){
+                remove_calendar_sync(storage,index);
+                remove_calendar_gcal(this.calId,token);
+              }
+            });
+          }else{
+            storage.calendars = [];
+          }
+          storage.calendars.push({"semester":message.semester,"year":message.year,"calId":calRes.id});
+          chrome.storage.sync.set({"calendars":storage.calendars});
         });
 
         for (var i = 0; i < message.course_data.length; i++) {//classes
-          processCourse(message.coures_data[i], calRes.id,token);
+          processCourse(message.course_data[i], calRes.id,token);
         }
 
         var opt = {
@@ -87,7 +91,7 @@ function remove_calendar_sync(items,index) {
   });
 }
 
-function remove_calendar_gcal(id){
+function remove_calendar_gcal(id,token){
   var xhr2 = new XMLHttpRequest();
   xhr2.open("DELETE", "https://www.googleapis.com/calendar/v3/calendars/" +  id, true);
   xhr2.setRequestHeader('Authorization', 'Bearer ' + token); // token comes from chrome.identity
@@ -122,33 +126,39 @@ function processCourse(course, calId, apiToken) {
   for (var j = 0; j < course.meetings.length; j++) {//meetins of classes
     var meeting = course.meetings[j];
 
-    var start = new Date(Date.parse(meeting.startDate + " " + meeting.startTime));
-    var end = new Date(Date.parse(meeting.startDate +  " " + meeting.endTime));
-    var semesterEnd = new Date(Date.parse(meeting.endDate));
+    try{
 
-    start.setDate(start.getDate() + dateIncrement(meeting.days[0]));
-    end.setDate(end.getDate() + dateIncrement(meeting.days[0]));
+      var start = new Date(Date.parse(meeting.startDate + " " + meeting.startTime));
+      var end = new Date(Date.parse(meeting.startDate +  " " + meeting.endTime));
+      var semesterEnd = new Date(Date.parse(meeting.endDate));
 
-    var desc = ''.concat("Professor: ", course.prof, " - " , course.prof_email, '\nSection: ', course.section, '\nCRN: ', course.crn, '\nCredits: ', course.cred);
+      start.setDate(start.getDate() + dateIncrement(meeting.days[0]));
+      end.setDate(end.getDate() + dateIncrement(meeting.days[0]));
 
-    var event = {
-      'summary': course.number.concat(" ", course.name, (meeting.schedule_type !== "Lecture" ? " (" + meeting.schedule_type  + ")":"")),
-      'location': meeting.location,
-      'description': desc,
-      'start': {
-        'dateTime': start.toISOString(),
-        'timeZone': 'America/New_York'
-      },
-      'end': {
-        'dateTime': end.toISOString(),
-        'timeZone': 'America/New_York'
-      },
-      'recurrence': [
-        'RRULE:FREQ=WEEKLY;UNTIL=' + semesterEnd.toISOString().replace(/[\.:-]|000/g,"") + ';BYDAY=' + convertWeekDays(meeting.days)
-      ]
-    };
+      var desc = ''.concat("Professor: ", course.prof, " - " , course.prof_email, '\nSection: ', course.section, '\nCRN: ', course.crn, '\nCredits: ', course.cred);
 
-    submitEvent(event,calId,apiToken);
+      var event = {
+        'summary': course.number.concat(" ", course.name, (meeting.schedule_type !== "Lecture" ? " (" + meeting.schedule_type  + ")":"")),
+        'location': meeting.location,
+        'description': desc,
+        'start': {
+          'dateTime': start.toISOString(),
+          'timeZone': 'America/New_York'
+        },
+        'end': {
+          'dateTime': end.toISOString(),
+          'timeZone': 'America/New_York'
+        },
+        'recurrence': [
+          'RRULE:FREQ=WEEKLY;UNTIL=' + semesterEnd.toISOString().replace(/[\.:-]|000/g,"") + ';BYDAY=' + convertWeekDays(meeting.days)
+        ]
+      };
+
+      submitEvent(event,calId,apiToken);
+    }catch(err){
+      //DEBUG
+      //console.log(err);
+    }
   }
 }
 
