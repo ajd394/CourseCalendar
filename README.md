@@ -1,4 +1,4 @@
-# CourseCalendar
+# Lehigh CourseCalendar
 
 This extension allows Lehigh University students to import classes from Banner into Google Calendar with a single click!
 
