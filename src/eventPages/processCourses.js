@@ -156,7 +156,8 @@ function processCourse(course, calId, apiToken) {
 
       submitEvent(event,calId,apiToken);
     }catch(err){
-      console.log(err);
+      //DEBUG
+      //console.log(err);
     }
   }
 }
