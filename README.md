@@ -4,7 +4,7 @@
 
 ###### User Guide:
 1. Navigate to Student Services -> Registration -> Student Detail Schedule
-2. Click the ![+ Google Calendar](icons/calendar_plus_en.gif) button on the top right
+2. Click the ![+ Google Calendar](extension/icons/calendar_plus_en.gif) button on the top right
  * You may be asked to allow CourseCalendar to access your Google Calendar
  * You will receive a notification when your schedule has been added to Google Calendar
 3. Navigate to Google Calendar
