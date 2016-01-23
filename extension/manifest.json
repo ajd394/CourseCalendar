@@ -1,6 +1,6 @@
 {
   "name": "Lehigh CourseCalendar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "manifest_version": 2,
   "description": "This extension allows Lehigh University students to import classes from Banner into Google Calendar with a single click!",
   "options_ui": {
